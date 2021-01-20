@@ -9,12 +9,11 @@ namespace EnumerableExtensions
     {
         static void Main()
         {
-            Prop.ForAll<float[]>(values =>
+            Prop.ForAll(new FiniteFloats(), values =>
             {
                 var (min, max) = values.Range();
                 return MaxIsGreatestValue(values, max).And(MinIsLowestValue(values, min))
-                    .When(values.Length > 0)
-                    .When(values.All(value => float.IsFinite(value)));
+                    .When(values.Length > 0);
             }).QuickCheck("Range");
         }
 
@@ -26,6 +25,19 @@ namespace EnumerableExtensions
         static bool MinIsLowestValue(IEnumerable<float> values, float min)
         {
             return values.All(value => value >= min) && values.Any(value => value == min);
+        }
+    }
+
+    class FiniteFloats : Arbitrary<float[]>
+    {
+        public override Gen<float[]> Generator
+        {
+            get
+            {
+                return Gen.ListOf(Arb.Generate<float>())
+                    .Where(values => values.All(value => float.IsFinite(value)))
+                    .Select(values => values.ToArray());
+            }
         }
     }
 }
