@@ -30,7 +30,14 @@ namespace EnumerableExtensions
         public static IEnumerable<float> Normalize(this IEnumerable<float> source)
         {
             var (min, max) = source.Range();
-            return source.Select(value => (value - min) / (max - min));
+            if (min == max)
+            {
+                return source.Select(value => 0.5f);
+            }
+            else
+            {
+                return source.Select(value => (value - min) / (max - min));
+            }
         }
     }
 }
