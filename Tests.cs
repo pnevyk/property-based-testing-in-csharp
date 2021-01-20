@@ -22,6 +22,11 @@ namespace EnumerableExtensions
                 return BetweenZeroAndOne(normalized)
                     .Trivial(values.Length == 0);
             }).QuickCheck();
+
+            if (!BetweenZeroAndOne(new float[] { float.MaxValue - 1, float.MinValue + 1 }.Normalize()))
+            {
+                throw new Exception("Oh no :(");
+            }
         }
 
         static bool MaxIsGreatestValue(IEnumerable<float> values, float max)
