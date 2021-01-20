@@ -51,5 +51,17 @@ namespace EnumerableExtensions
                     .Select(values => values.ToArray());
             }
         }
+
+        public override IEnumerable<float[]> Shrinker(float[] values)
+        {
+            var shrunk = new List<float[]>();
+
+            for (var i = 0; i < values.Length; i++)
+            {
+                shrunk.Add(values.Where((_, index) => index != i).ToArray());
+            }
+
+            return shrunk;
+        }
     }
 }
