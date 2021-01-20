@@ -47,7 +47,7 @@ namespace EnumerableExtensions
             get
             {
                 return Gen.ListOf(Arb.Generate<float>())
-                    .Where(values => values.All(value => float.IsFinite(value)))
+                    .Where(values => values.All(value => float.IsFinite(value) && value < float.MaxValue && value > float.MinValue))
                     .Select(values => values.ToArray());
             }
         }
