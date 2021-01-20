@@ -12,7 +12,8 @@ namespace EnumerableExtensions
             Prop.ForAll<float[]>(values =>
             {
                 var (min, max) = values.Range();
-                return MaxIsGreatestValue(values, max).And(MinIsLowestValue(values, min));
+                return MaxIsGreatestValue(values, max).And(MinIsLowestValue(values, min))
+                    .When(values.Length > 0);
             }).QuickCheck("Range");
         }
 
