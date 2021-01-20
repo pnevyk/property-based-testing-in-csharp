@@ -13,7 +13,8 @@ namespace EnumerableExtensions
             {
                 var (min, max) = values.Range();
                 return MaxIsGreatestValue(values, max).And(MinIsLowestValue(values, min))
-                    .When(values.Length > 0);
+                    .When(values.Length > 0)
+                    .When(values.All(value => float.IsFinite(value)));
             }).QuickCheck("Range");
         }
 
